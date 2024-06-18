@@ -1,46 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.EventSystems;
 
 public class Node : MonoBehaviour
 {
     public Color hoverColor;
     public Vector3 positionOffset; // Use this to adjust the turret position for each turret type
+    public Color notEnoughMoneyColor;
 
+    [Header("Optional")]
+    public GameObject turret;
 
-    private GameObject turret;
     private Renderer rend;
     private Color startColor;
+
+    BuildManager buildManager;
 
     void Start()
     {
         rend = GetComponent<Renderer>();
         startColor = rend.material.color;
+
+        buildManager = BuildManager.instance;
+    }
+    public  Vector3 GetBuildPosition()
+    {
+        return transform.position + positionOffset;
     }
 
     void OnMouseDown()
     {
+
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        if (!buildManager.CanBuild)
+            return;
+
         if (turret != null)
         {
             Debug.Log("Can't Build there");
             return;
         }
 
-        GameObject turretToBuild = BuildManager.instance.GetTurretToBuild();
-        if (turretToBuild == null)
-        {
-            Debug.LogError("No turret selected to build.");
-            return;
-        }
-
-        // Adjust the position by adding the positionOffset to ensure it is placed correctly on top
-        Vector3 spawnPosition = transform.position + positionOffset;
-        turret = Instantiate(turretToBuild, spawnPosition, transform.rotation);
+        buildManager.BuildTurretOn(this);
+  
     }
 
     void OnMouseEnter()
     {
-        rend.material.color = hoverColor;
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        if (!buildManager.CanBuild)
+            return;
+
+        if (buildManager.HasMoney)
+        {
+            rend.material.color = hoverColor;
+        } 
+        else {
+            rend.material.color = notEnoughMoneyColor;
+        }
+
     }
 
     void OnMouseExit()

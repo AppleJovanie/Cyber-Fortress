@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
-
     public static BuildManager instance;
 
     private void Awake()
@@ -18,25 +17,62 @@ public class BuildManager : MonoBehaviour
 
 
     }
-
-    public GameObject ByteSweeperPrefab;
+    public GameObject ByteSweeperPrefab; //Standard TurretPrefab
     public GameObject SpyBotTurrePrefab;
     public GameObject VastaCannonPrefab;
 
-    void Start()
+
+    //Build Effect Particle
+    public GameObject buildEffect;
+
+    private TurretBluePrint turretToBuild;
+    public bool CanBuild
     {
-        turretToBuild = ByteSweeperPrefab;
-       
+        get { return turretToBuild != null; }
     }
 
-    private GameObject turretToBuild;
-
-    public GameObject GetTurretToBuild()
+    public bool HasMoney
     {
-        return turretToBuild;
+        get { return PlayerStats.Money >= turretToBuild.cost; }
     }
-    public void SetTurretToBuild(GameObject turret)
+
+    public void BuildTurretOn(Node node)
+    {
+        if (turretToBuild == null)
+        {
+            Debug.LogError("No turret selected to build.");
+            return;
+        }
+
+        //Check if the player has enough money
+        if (PlayerStats.Money < turretToBuild.cost)
+        {
+            Debug.Log("Not Enough Money");
+            return;
+        }
+
+        if (turretToBuild.preFab == null)
+        {
+            Debug.LogError("Turret prefab is null!");
+            return;
+        }
+
+        //if yes build it and minus the cost of the turret to the player money
+        PlayerStats.Money -= turretToBuild.cost;
+
+        GameObject turret = (GameObject)Instantiate(turretToBuild.preFab, node.GetBuildPosition(), Quaternion.identity);
+        node.turret = turret;
+
+       GameObject effect = (GameObject) Instantiate(buildEffect, node.GetBuildPosition(), Quaternion.identity);
+        Destroy(effect, 5f);
+
+        Debug.Log("Turret Built! Money Left: " + PlayerStats.Money);
+    }
+
+    public void SelectTurretToBuild(TurretBluePrint turret)
     {
         turretToBuild = turret;
+        Debug.Log("Turret selected: " + (turretToBuild != null ? turretToBuild.preFab.name : "None"));
     }
+
 }

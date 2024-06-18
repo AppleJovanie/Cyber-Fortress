@@ -4,26 +4,31 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    public TurretBluePrint byteSweeperTurret;
+    public TurretBluePrint spyBotsTurret;
+    public TurretBluePrint vastaCannonTurret;
+    public TurretBluePrint WindowsDefenderTurret;
+
     BuildManager buildManager;
 
      void Start()
     {
         buildManager = BuildManager.instance;
     }
-    public void PurchaseStandardTurret()
+    public void SelectStandardTurret()
     {
-        Debug.Log("Standard Turret Purchased");
-        buildManager.SetTurretToBuild(buildManager.ByteSweeperPrefab);
+        Debug.Log("ByteSweeper Turret Purchased");
+        buildManager.SelectTurretToBuild(byteSweeperTurret);
     }
 
-    public void PurchaseSpyBotTurret()
+    public void SelectSpyBotTurret()
     {
         Debug.Log("SpyBot Turret Purchased");
-        buildManager.SetTurretToBuild(buildManager.SpyBotTurrePrefab);
+        buildManager.SelectTurretToBuild(spyBotsTurret);
     }
-    public void PurchaseVastaCannonTurret()
+    public void SelectVastaCannonTurret()
     {
         Debug.Log("Vasta Cannon Turret Purchased");
-        buildManager.SetTurretToBuild(buildManager.VastaCannonPrefab);
+        buildManager.SelectTurretToBuild(vastaCannonTurret);
     }
 }
