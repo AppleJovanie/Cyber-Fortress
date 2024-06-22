@@ -24,8 +24,6 @@ public class WaveSpawner : MonoBehaviour
         }
         CountDown -= Time.deltaTime;
 
-        
-
         waveCountDownText.text = string.Format("{0:00.00:}" , CountDown);
     }
 

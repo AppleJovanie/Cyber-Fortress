@@ -31,4 +31,9 @@ public class Shop : MonoBehaviour
         Debug.Log("Vasta Cannon Turret Purchased");
         buildManager.SelectTurretToBuild(vastaCannonTurret);
     }
+    public void SelectWindowsDefenderTurret()
+    {
+        Debug.Log("Windows Defender Turret Purchased");
+        buildManager.SelectTurretToBuild(WindowsDefenderTurret);
+    }
 }

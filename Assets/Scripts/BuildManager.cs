@@ -17,11 +17,6 @@ public class BuildManager : MonoBehaviour
 
 
     }
-    public GameObject ByteSweeperPrefab; //Standard TurretPrefab
-    public GameObject SpyBotTurrePrefab;
-    public GameObject VastaCannonPrefab;
-
-
     //Build Effect Particle
     public GameObject buildEffect;
 
@@ -44,7 +39,6 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        //Check if the player has enough money
         if (PlayerStats.Money < turretToBuild.cost)
         {
             Debug.Log("Not Enough Money");
@@ -57,13 +51,13 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        //if yes build it and minus the cost of the turret to the player money
         PlayerStats.Money -= turretToBuild.cost;
 
-        GameObject turret = (GameObject)Instantiate(turretToBuild.preFab, node.GetBuildPosition(), Quaternion.identity);
+        Vector3 buildPosition = node.transform.position + turretToBuild.positionOffset;
+        GameObject turret = (GameObject)Instantiate(turretToBuild.preFab, buildPosition, Quaternion.identity);
         node.turret = turret;
 
-       GameObject effect = (GameObject) Instantiate(buildEffect, node.GetBuildPosition(), Quaternion.identity);
+        GameObject effect = (GameObject)Instantiate(buildEffect, buildPosition, Quaternion.identity);
         Destroy(effect, 5f);
 
         Debug.Log("Turret Built! Money Left: " + PlayerStats.Money);
