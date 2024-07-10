@@ -5,5 +5,10 @@ public class TurretBluePrint
 {
     public GameObject preFab;
     public int cost;
-    public Vector3 positionOffset; // Add this field to define custom offsets for each turret
+    public Vector3 positionOffset;
+    public Vector3 upgradePositionOffset;
+    public GameObject upgradedPrefab;
+    public int upgradeCost;
+    public GameObject finalUpgradePrefab; // Add this field
+    public int finalUpgradeCost; // Add this field
 }

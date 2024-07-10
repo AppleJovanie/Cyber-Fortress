@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     public float panSpeed = 30f;
     public float panBorderThickness = 10f;
-    private bool doMovement = true;
+    
 
     public float scrollSpeed = 5f;
     public float minY = 200f;
@@ -33,11 +33,12 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            doMovement = !doMovement;
-
-        if (!doMovement)
+        if (GameManager.gameIsOver)
+        {
+            this.enabled = false;
             return;
+        }
+    
 
         Vector3 pos = transform.position;
 
