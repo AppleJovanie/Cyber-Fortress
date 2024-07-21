@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
@@ -15,12 +16,14 @@ public class BuildManager : MonoBehaviour
     }
 
     public GameObject buildEffect;
-    public GameObject sellEffect; // Add this line
+    public GameObject sellEffect;
 
     private TurretBluePrint turretToBuild;
     private Node selectedNode;
+    private CubtizTowerNode selectedTowerNode;
 
     public NodeUI nodeUI;
+    public CubitzTowerUI towerUI;
 
     public bool CanBuild { get { return turretToBuild != null; } }
     public bool HasMoney { get { return PlayerStats.Money >= turretToBuild.cost; } }
@@ -45,14 +48,41 @@ public class BuildManager : MonoBehaviour
         nodeUI.Hide();
     }
 
+    //Selecting CubitzTower
+    public void SelectCubitzUI(CubtizTowerNode towerNode)
+    {
+        if (selectedTowerNode == towerNode)
+        {
+            DeselectCubitzUI();
+            return;
+        }
+
+        selectedTowerNode = towerNode;
+        turretToBuild = null;
+
+        towerUI.SetTarget(towerNode);
+    }
+
+    public void DeselectCubitzUI()
+    {
+        selectedTowerNode = null;
+        towerUI.Hide();
+    }
+
     public void SelectTurretToBuild(TurretBluePrint turret)
     {
         turretToBuild = turret;
         DeselectNode();
+        DeselectCubitzUI();
     }
 
     public TurretBluePrint GetTurretToBuild()
     {
         return turretToBuild;
+    }
+
+    internal void SelectCubitzUI(CubitzTowerUI towerUI)
+    {
+        throw new NotImplementedException();
     }
 }

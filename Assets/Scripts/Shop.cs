@@ -49,7 +49,14 @@ public class Shop : MonoBehaviour
         if (turret != null)
         {
             Debug.Log("Position Offset for " + turret.preFab.name + ": " + turret.positionOffset);
-            Debug.Log("Upgrade Position Offset for " + turret.upgradedPrefab.name + ": " + turret.upgradePositionOffset);
+            if (turret.upgradedPrefab != null)
+            {
+                Debug.Log("Upgrade Position Offset for " + turret.upgradedPrefab.name + ": " + turret.upgradePositionOffset);
+            }
+            if (turret.finalUpgradePrefab != null)
+            {
+                Debug.Log("Final Upgrade Position Offset for " + turret.finalUpgradePrefab.name + ": " + turret.finalUpgradePositionOffset);
+            }
         }
     }
 }

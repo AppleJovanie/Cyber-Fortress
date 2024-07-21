@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class Enemies : MonoBehaviour
 {
-   
     public float speed = 10f;
     public int startHealth = 100;
     private float health;
@@ -12,18 +10,25 @@ public class Enemies : MonoBehaviour
     private Transform target;
     private int wavePointIndex = 0;
 
-    [Header("Unity Stuff")]
+    public GameObject head; // Reference to the head GameObject
+    public GameObject deathEffect;
     public Image healthBar;
+
+    private Transform[] waypoints;
+
     void Start()
     {
-     
         health = startHealth;
-        target = WayPointSystem.wayPoints[0];
+        target = waypoints[0];
     }
 
-    public void TakeDamage(int amount)
+    public void SetWaypoints(Transform[] waypoints)
     {
+        this.waypoints = waypoints;
+    }
 
+    public void TakeDamage(float amount)
+    {
         health -= amount;
         healthBar.fillAmount = health / startHealth;
         if (health <= 0)
@@ -35,13 +40,31 @@ public class Enemies : MonoBehaviour
     void Die()
     {
         PlayerStats.Money += value;
+        KillTracker.instance.kills++;
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
+
+        WaveSpawner.EnemiesAlive--;
         Destroy(gameObject);
     }
 
     void Update()
     {
+        if (waypoints == null || waypoints.Length == 0)
+        {
+            Debug.LogWarning("No waypoints assigned to enemy!");
+            return;
+        }
+
         Vector3 dir = target.position - transform.position;
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+
+        // Update head rotation to face the direction of movement
+        if (head != null)
+        {
+            Vector3 headDirection = (target.position - head.transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(headDirection);
+            head.transform.rotation = Quaternion.Lerp(head.transform.rotation, lookRotation, Time.deltaTime * speed);
+        }
 
         if (Vector3.Distance(transform.position, target.position) <= 0.4f)
         {
@@ -51,18 +74,49 @@ public class Enemies : MonoBehaviour
 
     void GetNextWayPoint()
     {
-        if (wavePointIndex >= WayPointSystem.wayPoints.Length - 1)
+        if (wavePointIndex >= waypoints.Length - 1)
         {
             EndPath();
             return;
         }
         wavePointIndex++;
-        target = WayPointSystem.wayPoints[wavePointIndex];
+        target = waypoints[wavePointIndex];
     }
 
     void EndPath()
     {
-        PlayerStats.Lives--;
+        // Determine which enemy type this is based on its tag
+        string enemyTag = gameObject.tag; // Assuming each enemy has its tag set correctly
+
+        // Reduce player lives based on the enemy tag
+        switch (enemyTag)
+        {
+            case "TrojanHorse":
+                PlayerStats.Lives -= 10;
+                Debug.Log("Lives Deducted: " + PlayerStats.Lives);
+                break;
+            case "ComputerWorm":
+                PlayerStats.Lives -= 15;
+                break;
+            case "Spyware":
+                PlayerStats.Lives -= 18;
+                break;
+            case "Adware":
+                PlayerStats.Lives -= 20;
+                break;
+            case "Malware":
+                PlayerStats.Lives -= 50;
+                break;
+            default:
+                Debug.LogWarning("Unknown enemy type: " + enemyTag);
+                break;
+        }
+     
+
+
+        // Decrease the EnemiesAlive count and destroy the enemy
+        WaveSpawner.EnemiesAlive--;
         Destroy(gameObject);
     }
+
 }

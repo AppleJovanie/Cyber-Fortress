@@ -5,23 +5,26 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
     private Transform target;
+    private Enemies targetEnemy;
 
     [Header("General")]
     public float range = 15f;
 
-    [Header("Use Bullets(Default)")]
+    [Header("Use Bullets (Default)")]
     public GameObject bulletPrefab;
     public float fireRate = 1f;
     private float fireCountDown = 0f;
 
     [Header("Unity Setup Fields")]
-    public string enemyTag = "Enemy";
+    public List<string> enemyTags = new List<string> { "TrojanHorse", "ComputerWorm", "Spyware", "Adware", "Malware" };
     public Transform partToRotate;
     public float turnSpeed = 10f;
 
     [Header("Use Laser")]
-    public bool useLaser = false; // Corrected spelling from userLaser to useLaser
+    public bool useLaser = false;
     public LineRenderer lineRenderer;
+    public float damageOverTime = 30f; // Damage per second
+    public float slowAmount = 0.5f; // Slow percentage
 
     public Transform firePoint;
 
@@ -32,15 +35,21 @@ public class Turret : MonoBehaviour
 
     void UpdateTarget()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        List<GameObject> allEnemies = new List<GameObject>();
+
+        foreach (string tag in enemyTags)
+        {
+            GameObject[] enemiesWithTag = GameObject.FindGameObjectsWithTag(tag);
+            allEnemies.AddRange(enemiesWithTag);
+        }
 
         float shortestDistance = Mathf.Infinity;
         GameObject nearestEnemy = null;
 
-        foreach (GameObject enemy in enemies)
+        foreach (GameObject enemy in allEnemies)
         {
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy < shortestDistance)
+            if (distanceToEnemy < shortestDistance && IsTargetable(enemy.tag))
             {
                 shortestDistance = distanceToEnemy;
                 nearestEnemy = enemy;
@@ -50,14 +59,20 @@ public class Turret : MonoBehaviour
         if (nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
+            targetEnemy = nearestEnemy.GetComponent<Enemies>();
         }
         else
         {
             target = null;
+            targetEnemy = null;
         }
     }
 
-    // Update is called once per frame
+    bool IsTargetable(string tag)
+    {
+        return enemyTags.Contains(tag);
+    }
+
     void Update()
     {
         if (target == null)
@@ -114,11 +129,21 @@ public class Turret : MonoBehaviour
 
         lineRenderer.SetPosition(0, firePoint.position);
         lineRenderer.SetPosition(1, target.position);
+
+        // Damage the enemy
+        if (targetEnemy != null)
+        {
+            targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+
+         
+        }
     }
+
+
 
     void Shoot()
     {
-        GameObject bulletGo = (GameObject)Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bulletGo = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Bullet bullet = bulletGo.GetComponent<Bullet>();
         if (bullet != null)
         {

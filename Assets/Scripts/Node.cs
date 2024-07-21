@@ -34,7 +34,7 @@ public class Node : MonoBehaviour
     {
         if (isFinalUpgraded)
         {
-            return transform.position;
+            return transform.position + turretBlueprint.finalUpgradePositionOffset;
         }
         return transform.position + (isUpgraded ? turretBlueprint.upgradePositionOffset : turretBlueprint.positionOffset);
     }
@@ -136,7 +136,7 @@ public class Node : MonoBehaviour
 
         Destroy(turret);
 
-        Vector3 finalUpgradeBuildPosition = transform.position;
+        Vector3 finalUpgradeBuildPosition = transform.position + turretBlueprint.finalUpgradePositionOffset;
         GameObject _turret = (GameObject)Instantiate(turretBlueprint.finalUpgradePrefab, finalUpgradeBuildPosition, Quaternion.identity);
         turret = _turret;
 

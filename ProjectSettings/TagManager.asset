@@ -13,6 +13,12 @@ TagManager:
   - ByteSweeperNode
   - SpyBotSweeper
   - Node
+  - Wavepoints
+  - TrojanHorse
+  - ComputerWorm
+  - Spyware
+  - Adware
+  - Malware
   layers:
   - Default
   - TransparentFX
