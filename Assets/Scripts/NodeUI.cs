@@ -12,6 +12,12 @@ public class NodeUI : MonoBehaviour
     public Text sellAmountText; // Reference to the Text component for sell amount
     public Button sellButton; // Reference to the sell button
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();    
+    }
     public void SetTarget(Node _target)
     {
         this.target = _target;
@@ -20,12 +26,12 @@ public class NodeUI : MonoBehaviour
 
         if (!target.isUpgraded)
         {
-            upgradeCostText.text = "$" + target.turretBlueprint.upgradeCost;
+            upgradeCostText.text = "Upgrade: C" + target.turretBlueprint.upgradeCost;
             upgradeButton.interactable = true;
         }
         else if (!target.isFinalUpgraded)
         {
-            upgradeCostText.text = "$" + target.turretBlueprint.finalUpgradeCost;
+            upgradeCostText.text = "Upgrade: C" + target.turretBlueprint.finalUpgradeCost;
             upgradeButton.interactable = true;
         }
         else
@@ -43,7 +49,7 @@ public class NodeUI : MonoBehaviour
         {
             sellAmount += target.turretBlueprint.finalUpgradeCost / 2;
         }
-        sellAmountText.text = "$" + sellAmount;
+        sellAmountText.text = "Sell: C" + sellAmount;
         sellButton.interactable = true;
 
         UI.SetActive(true);
@@ -58,10 +64,12 @@ public class NodeUI : MonoBehaviour
     {
         if (!target.isUpgraded)
         {
+            audioManager.PlaySfx(audioManager.UpgradeEffect);
             target.UpgradeTurret();
         }
         else if (!target.isFinalUpgraded)
         {
+            audioManager.PlaySfx(audioManager.UpgradeEffect);
             target.FinalUpgradeTurret();
         }
         BuildManager.instance.DeselectNode();
@@ -69,6 +77,7 @@ public class NodeUI : MonoBehaviour
 
     public void Sell()
     {
+        audioManager.PlaySfx(audioManager.SellEffect);
         target.SellTurret();
         BuildManager.instance.DeselectNode();
     }

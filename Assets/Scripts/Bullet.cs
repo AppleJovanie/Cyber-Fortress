@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Bullet : MonoBehaviour
 {
     private Transform target;
     public float speed = 70f;
     public int damage = 50;
     public GameObject ImpactEffect;
+    AudioManager audioManager;
 
+    public void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     public void Seek(Transform _target)
     {
         target = _target;
@@ -42,6 +48,9 @@ public class Bullet : MonoBehaviour
         Destroy(effectIns, 2f);
 
         Damage(target);
+
+
+        audioManager.PlaySfx(audioManager.bulletImpact);
         Destroy(gameObject);
     }
 

@@ -52,19 +52,18 @@ public class PauseMenu : MonoBehaviour
 
     public void Save()
     {
-        //PlayerData data = new PlayerData
-        //{
-        //    score = GameManager.instance.score,
-        //    health = GameManager.instance.health,
-        //    playerPosition = GameManager.instance.player.transform.position,
-        //    currentWave = WaveSpawner.currentWaveIndex,
-        //    money = PlayerStats.Money,
-        //    lives = PlayerStats.Lives,
-        //    rounds = PlayerStats.Rounds
-        //};
+        PlayerData data = new PlayerData
+        {
+            money = PlayerStats.Money,
+            lives = PlayerStats.Lives,
+            rounds = PlayerStats.Rounds,
+            currentLevel = SceneManager.GetActiveScene().name // Save the current level
+        };
+        Debug.Log("Saved" + data);
 
-        //SaveSystem.SavePlayer(data);
+        SaveSystem.SavePlayer(data);
     }
+
 
     public void OpenAudioMenu()
     {

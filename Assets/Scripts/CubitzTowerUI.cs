@@ -7,8 +7,14 @@ public class CubitzTowerUI : MonoBehaviour
 {
     public GameObject ui;
     public Text cubitzText; // Add a Text UI component to display the Cubitz available
+    AudioManager audioManager;
 
     private CubtizTowerNode towerTarget;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     public void SetTarget(CubtizTowerNode _towerTarget)
     {
@@ -26,9 +32,16 @@ public class CubitzTowerUI : MonoBehaviour
 
     public void Collect()
     {
-        KillTracker.instance.CollectCubitz();
-        UpdateCubitzText();
-        
+        if (KillTracker.instance.HasCubitzToCollect())
+        {
+            KillTracker.instance.CollectCubitz();
+            audioManager.PlaySfx(audioManager.SellEffect); // Play the collect sound effect
+            UpdateCubitzText();
+        }
+        else
+        {
+            Debug.Log("No Cubitz to collect");
+        }
     }
 
     void UpdateCubitzText()

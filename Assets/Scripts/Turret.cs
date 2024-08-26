@@ -28,6 +28,13 @@ public class Turret : MonoBehaviour
 
     public Transform firePoint;
 
+    AudioManager audioManager;
+
+    public void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     void Start()
     {
         InvokeRepeating("UpdateTarget", 0f, 0.5f);
@@ -89,6 +96,7 @@ public class Turret : MonoBehaviour
 
         if (useLaser)
         {
+            
             Laser();
         }
         else
@@ -134,12 +142,8 @@ public class Turret : MonoBehaviour
         if (targetEnemy != null)
         {
             targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
-
-         
         }
     }
-
-
 
     void Shoot()
     {

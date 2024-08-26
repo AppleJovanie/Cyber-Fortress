@@ -13,10 +13,20 @@ public class WaveSpawner : MonoBehaviour
     private int waveIndex1 = 0;
     private int waveIndex2 = 0;
     public Vector3 enemyRotation = new Vector3(0, 90.9f, 0); // Desired rotation for the enemy
+    public GameObject ProceedToNextLevelPanel;
 
     public static int EnemiesAlive = 0;
 
     public TextMeshProUGUI waveCountDownText;
+    public TextMeshProUGUI waveMessageText; // Reference to the TextMeshProUGUI for wave message
+
+
+    void Start()
+    {
+        Time.timeScale = 1f; // Ensure the game is running
+        countDown = 2f; // Initialize countdown
+        EnemiesAlive = 0; // Reset enemies alive count
+    }
 
     void Update()
     {
@@ -29,19 +39,50 @@ public class WaveSpawner : MonoBehaviour
         {
             if (waveIndex1 < waves.Length || waveIndex2 < waves2.Length)
             {
-                StartCoroutine(SpawnWaves());
+                StartCoroutine(DisplayWaveMessage()); // Show wave message before spawning waves
                 countDown = timeBetweenWaves;
             }
             else
             {
+                // All waves are completed
                 Debug.Log("All waves completed!");
                 enabled = false; // Disable the WaveSpawner after all waves are completed
+
+                // Enable the ProceedToNextLevelPanel
+                ProceedToNextLevelPanel.SetActive(true);
             }
         }
 
         countDown -= Time.deltaTime;
 
         waveCountDownText.text = string.Format("{0:00.00}", countDown);
+    }
+
+
+    IEnumerator DisplayWaveMessage()
+    {
+        int currentWave = Mathf.Max(waveIndex1, waveIndex2) + 1;
+        waveMessageText.text = "Wave " + currentWave + " Good Luck";
+        waveMessageText.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        float fadeDuration = 1.5f;
+        float elapsedTime = 0f;
+        Color originalColor = waveMessageText.color;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            waveMessageText.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+            yield return null;
+        }
+
+        waveMessageText.gameObject.SetActive(false);
+        waveMessageText.color = originalColor; // Reset the color for next use
+
+        StartCoroutine(SpawnWaves());
     }
 
     IEnumerator SpawnWaves()

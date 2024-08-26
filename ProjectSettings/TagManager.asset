@@ -19,6 +19,7 @@ TagManager:
   - Spyware
   - Adware
   - Malware
+  - Audio
   layers:
   - Default
   - TransparentFX

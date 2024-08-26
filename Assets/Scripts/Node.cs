@@ -21,7 +21,12 @@ public class Node : MonoBehaviour
     private Color startColor;
 
     BuildManager buildManager;
+    AudioManager audioManager;
 
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     void Start()
     {
         rend = GetComponent<Renderer>();
@@ -54,6 +59,7 @@ public class Node : MonoBehaviour
             return;
 
         BuildTurret(buildManager.GetTurretToBuild());
+       
     }
 
     void BuildTurret(TurretBluePrint blueprint)
@@ -80,10 +86,12 @@ public class Node : MonoBehaviour
 
         Vector3 buildPosition = transform.position + blueprint.positionOffset;
         GameObject _turret = (GameObject)Instantiate(blueprint.preFab, buildPosition, Quaternion.identity);
+        audioManager.PlaySfx(audioManager.BuildingEffect);
         turret = _turret;
 
         turretBlueprint = blueprint;
         GameObject effect = (GameObject)Instantiate(buildManager.buildEffect, buildPosition, Quaternion.identity);
+       
         Destroy(effect, 5f);
 
         Debug.Log("Turret Built! Money Left: " + PlayerStats.Money);
@@ -168,7 +176,9 @@ public class Node : MonoBehaviour
         isFinalUpgraded = false;
 
         GameObject effect = (GameObject)Instantiate(buildManager.sellEffect, transform.position, Quaternion.identity);
+       
         Destroy(effect, 5f);
+       
 
         Debug.Log("Turret Sold! Money Received: " + sellAmount);
     }

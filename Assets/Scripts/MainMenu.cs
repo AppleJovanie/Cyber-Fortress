@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public string level1 = "MainLevel";
     public SceneFader sceneFader;
 
     public void Play()
     {
-        sceneFader.FadeTo(level1);
+        Time.timeScale = 1f; // Ensure the game starts in a running state
+        sceneFader.FadeTo("MainLevel");
     }
 
     public void Quit()
@@ -20,18 +20,15 @@ public class MainMenu : MonoBehaviour
 
     public void Load()
     {
-        //PlayerData data = SaveSystem.LoadPlayer();
-        //if (data != null)
-        //{
-        //    GameManager.instance.score = data.score;
-        //    GameManager.instance.health = data.health;
-        //    GameManager.instance.player.transform.position = data.playerPosition;
-        //    WaveSpawner.currentWaveIndex = data.currentWave;
-        //    PlayerStats.Money = data.money;
-        //    PlayerStats.Lives = data.lives;
-        //    PlayerStats.Rounds = data.rounds;
+        PlayerData data = SaveSystem.LoadPlayer();
+        if (data != null)
+        {
+            PlayerStats.Money = data.money;
+            PlayerStats.Lives = data.lives;
+            PlayerStats.Rounds = data.rounds;
 
-        //    sceneFader.FadeTo(level1);
-        //}
+            Time.timeScale = 1f; // Ensure the game is running
+            sceneFader.FadeTo(data.currentLevel);
+        }
     }
 }

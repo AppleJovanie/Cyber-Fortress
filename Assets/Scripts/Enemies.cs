@@ -5,7 +5,7 @@ public class Enemies : MonoBehaviour
 {
     public float speed = 10f;
     public int startHealth = 100;
-    private float health;
+    public float health;
     public int value = 50;
     private Transform target;
     private int wavePointIndex = 0;
@@ -25,6 +25,28 @@ public class Enemies : MonoBehaviour
     public void SetWaypoints(Transform[] waypoints)
     {
         this.waypoints = waypoints;
+    }
+
+    public void SetCurrentWaypointIndex(int index)
+    {
+        wavePointIndex = index;
+        target = waypoints[wavePointIndex];
+    }
+
+    public int GetCurrentWaypointIndex()
+    {
+        return wavePointIndex;
+    }
+
+    public void SetHealth(float newHealth)
+    {
+        health = newHealth;
+        healthBar.fillAmount = health / startHealth;
+    }
+
+    public float GetHealth()
+    {
+        return health;
     }
 
     public void TakeDamage(float amount)
@@ -111,12 +133,36 @@ public class Enemies : MonoBehaviour
                 Debug.LogWarning("Unknown enemy type: " + enemyTag);
                 break;
         }
-     
-
 
         // Decrease the EnemiesAlive count and destroy the enemy
         WaveSpawner.EnemiesAlive--;
         Destroy(gameObject);
     }
 
+    // Method to get data for saving
+    public EnemyData GetEnemyData()
+    {
+        return new EnemyData
+        {
+            position = new SerializableVector3(transform.position),
+            enemyName = gameObject.tag,
+            health = health,
+            waypointIndex = wavePointIndex
+        };
+    }
+
+    // Method to set data when loading
+    public void SetEnemyData(EnemyData data)
+    {
+        transform.position = data.position.ToVector3();
+        health = data.health;
+        healthBar.fillAmount = health / startHealth;
+        wavePointIndex = data.waypointIndex;
+
+        // If waypoints are set, adjust the target accordingly
+        if (waypoints != null && waypoints.Length > 0)
+        {
+            target = waypoints[wavePointIndex];
+        }
+    }
 }
