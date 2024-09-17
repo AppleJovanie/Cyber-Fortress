@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         Time.timeScale = 1f; // Ensure the game starts in a running state
-        sceneFader.FadeTo("MainLevel");
+        sceneFader.FadeTo("Level1");
     }
 
     public void Quit()
