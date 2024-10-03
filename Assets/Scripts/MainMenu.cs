@@ -6,10 +6,15 @@ public class MainMenu : MonoBehaviour
 {
     public SceneFader sceneFader;
 
+    void Start()
+    {
+        PlayerStats.Rounds = 0; // Reset rounds when starting a new game
+    }
+
     public void Play()
     {
         Time.timeScale = 1f; // Ensure the game starts in a running state
-        sceneFader.FadeTo("Level1");
+        sceneFader.FadeTo("IntroSceneStory");
     }
 
     public void Quit()

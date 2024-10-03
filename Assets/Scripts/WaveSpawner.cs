@@ -9,7 +9,7 @@ public class WaveSpawner : MonoBehaviour
     public Transform spawnPoint1;
     public Transform spawnPoint2;
     public float timeBetweenWaves = 5f;
-    private float countDown = 2f;
+    private float countDown;
     private int waveIndex1 = 0;
     private int waveIndex2 = 0;
     public Vector3 enemyRotation = new Vector3(0, 90.9f, 0); // Desired rotation for the enemy
@@ -20,27 +20,28 @@ public class WaveSpawner : MonoBehaviour
     public TextMeshProUGUI waveCountDownText;
     public TextMeshProUGUI waveMessageText; // Reference to the TextMeshProUGUI for wave message
 
-
     void Start()
     {
         Time.timeScale = 1f; // Ensure the game is running
-        countDown = 2f; // Initialize countdown
+        countDown = 1.5f; // Initialize countdown to 4 seconds for player preparation
         EnemiesAlive = 0; // Reset enemies alive count
     }
 
     void Update()
     {
-        if (EnemiesAlive > 0)
+        if (EnemiesAlive > 0) // Wait for all enemies to be destroyed before starting next wave
         {
             return;
         }
 
+        // Freeze the countdown timer when wave starts and wait for 4 seconds before spawning
         if (countDown <= 0f)
         {
             if (waveIndex1 < waves.Length || waveIndex2 < waves2.Length)
             {
-                StartCoroutine(DisplayWaveMessage()); // Show wave message before spawning waves
-                countDown = timeBetweenWaves;
+                countDown = 0f;
+                StartCoroutine(FreezeTimerAtZero()); // Freeze timer at zero before wave starts
+                countDown = timeBetweenWaves; // Reset the countdown for the next wave
             }
             else
             {
@@ -53,11 +54,23 @@ public class WaveSpawner : MonoBehaviour
             }
         }
 
-        countDown -= Time.deltaTime;
+        // Update the countdown text, freeze at zero during the wave
+        waveCountDownText.text = string.Format("{0:00.00}", Mathf.Max(0f, countDown));
 
-        waveCountDownText.text = string.Format("{0:00.00}", countDown);
+        countDown -= Time.deltaTime;
     }
 
+    IEnumerator FreezeTimerAtZero()
+    {
+        // Display zero and freeze the timer for 4 seconds to allow player preparation
+        waveCountDownText.text = "00.00";
+
+        // Wait for 4 seconds to give the player time to prepare
+        yield return new WaitForSeconds(4f);
+
+        // After the 4-second freeze, show the wave message and start spawning the wave
+        StartCoroutine(DisplayWaveMessage());
+    }
 
     IEnumerator DisplayWaveMessage()
     {
@@ -82,12 +95,12 @@ public class WaveSpawner : MonoBehaviour
         waveMessageText.gameObject.SetActive(false);
         waveMessageText.color = originalColor; // Reset the color for next use
 
-        StartCoroutine(SpawnWaves());
+        StartCoroutine(SpawnWaves()); // Start spawning the waves after the message
     }
 
     IEnumerator SpawnWaves()
     {
-        PlayerStats.Rounds++;
+        PlayerStats.Rounds++; // Increment the round count
 
         if (waveIndex1 < waves.Length)
         {
@@ -105,6 +118,7 @@ public class WaveSpawner : MonoBehaviour
             }
             waveIndex2++;
         }
+        PlayerStats.Rounds++;
 
         yield return null;
     }
@@ -115,9 +129,9 @@ public class WaveSpawner : MonoBehaviour
 
         for (int i = 0; i < wave.count; i++)
         {
-            Debug.Log("Get ready for another wave");
+            Debug.Log("Spawning enemy");
             SpawnEnemy(wave.enemyPrefab, spawnPoint, waypoints);
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(spawnInterval); // Wait between enemy spawns
         }
     }
 
@@ -125,7 +139,7 @@ public class WaveSpawner : MonoBehaviour
     {
         Vector3 spawnPosition = spawnPoint.position;
         Quaternion rotation = Quaternion.Euler(enemyRotation);
-        Debug.Log($"Spawning enemy at: {spawnPosition} with offset: ");
+        Debug.Log($"Spawning enemy at: {spawnPosition}");
 
         GameObject enemyInstance = Instantiate(enemy, spawnPosition, rotation);
 

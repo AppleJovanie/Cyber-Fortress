@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class CubitzTowerUI : MonoBehaviour
 {
     public GameObject ui;
-    public Text cubitzText; // Add a Text UI component to display the Cubitz available
+    public Text cubitzText;
+    public GameObject nodeUI; // Add reference to the Node UI
     AudioManager audioManager;
-
     private CubtizTowerNode towerTarget;
+    private static GameObject activeUI = null; // Static reference to the active UI
 
     private void Awake()
     {
@@ -18,9 +19,22 @@ public class CubitzTowerUI : MonoBehaviour
 
     public void SetTarget(CubtizTowerNode _towerTarget)
     {
+        // Hide the currently active UI if it's not this one
+        if (activeUI != null && activeUI != ui)
+        {
+            activeUI.SetActive(false);
+        }
+
+        // Hide Node UI if it is active
+        if (nodeUI.activeSelf)
+        {
+            nodeUI.SetActive(false);
+        }
+
         this.towerTarget = _towerTarget;
         transform.position = towerTarget.transform.position; // Position the UI accordingly
         ui.SetActive(true); // Show the UI
+        activeUI = ui; // Set this UI as the active UI
 
         UpdateCubitzText();
     }
@@ -28,6 +42,10 @@ public class CubitzTowerUI : MonoBehaviour
     public void Hide()
     {
         ui.SetActive(false); // Hide the UI
+        if (activeUI == ui)
+        {
+            activeUI = null; // Clear the active UI reference if this is the one being hidden
+        }
     }
 
     public void Collect()

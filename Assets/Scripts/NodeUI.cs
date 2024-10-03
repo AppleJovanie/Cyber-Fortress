@@ -7,21 +7,35 @@ public class NodeUI : MonoBehaviour
 {
     private Node target;
     public GameObject UI;
-    public Text upgradeCostText; // Reference to the Text component for upgrade cost
-    public Button upgradeButton; // Reference to the upgrade button
-    public Text sellAmountText; // Reference to the Text component for sell amount
-    public Button sellButton; // Reference to the sell button
+    public GameObject cubitzUI; // Add reference to the Cubitz UI
+    public Text upgradeCostText;
+    public Button upgradeButton;
+    public Text sellAmountText;
+    public Button sellButton;
 
     AudioManager audioManager;
+    private static GameObject activeUI = null;  // Static reference to the active UI
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();    
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
+
     public void SetTarget(Node _target)
     {
-        this.target = _target;
+        // Hide the currently active UI if it's not this one
+        if (activeUI != null && activeUI != UI)
+        {
+            activeUI.SetActive(false);
+        }
 
+        // Hide Cubitz UI if it is active
+        if (cubitzUI.activeSelf)
+        {
+            cubitzUI.SetActive(false);
+        }
+
+        this.target = _target;
         transform.position = target.GetBuildPosition();
 
         if (!target.isUpgraded)
@@ -53,11 +67,16 @@ public class NodeUI : MonoBehaviour
         sellButton.interactable = true;
 
         UI.SetActive(true);
+        activeUI = UI; // Set this UI as the active UI
     }
 
     public void Hide()
     {
         UI.SetActive(false);
+        if (activeUI == UI)
+        {
+            activeUI = null; // Clear the active UI reference if this is the one being hidden
+        }
     }
 
     public void Upgrade()

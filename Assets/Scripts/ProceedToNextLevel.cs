@@ -9,6 +9,7 @@ public class ProceedToNextLevel : MonoBehaviour
     public string level3 = "Level3";
     public string level4 = "Level4";
     public string level5 = "Level5";
+    public string OutroStory = "OutroSceneStory";
     public string Minigame = "MiniGame";
     public void Proceedafterlvl1()
     {
@@ -28,6 +29,7 @@ public class ProceedToNextLevel : MonoBehaviour
     }
     public void Proceedafterlvl5()
     {
-        SceneManager.LoadScene(Minigame);
+        SceneManager.LoadScene(OutroStory);
     }
+    
 }

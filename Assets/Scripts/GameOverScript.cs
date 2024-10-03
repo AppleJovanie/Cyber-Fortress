@@ -13,14 +13,19 @@ public class GameOverScript : MonoBehaviour
     void OnEnable()
     {
         roundsText.text = PlayerStats.Rounds.ToString();
+     
     }
+
     public void Retry()
     {
+
         sceneFader.FadeTo(SceneManager.GetActiveScene().name);
+       
     }
     public void Menu()
     {
 
         sceneFader.FadeTo(menuScene);
     }
+  
 }

@@ -637,20 +637,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   QnA:
-  - Question: Name?
+  - Question: 'Often uses the victim organization''s internet or a local area network
+      (LAN) connection to spread itself. '
     Answers:
-    - A
-    - B
-    - C
-    - D
+    - Computer Worm
+    - Malware
+    - Spy Trojan Horse
+    - 'Adware '
+    CorrectAnswer: 0
+  - Question: 'Any intrusive software developed by cybercriminals to steal data and
+      damage or destroy computers and computer systems. '
+    Answers:
+    - Computer Worm
+    - Spyware
+    - Malware
+    - Adware
     CorrectAnswer: 2
-  - Question: 'fuck me '
+  - Question: ' Are designed to sit on a user''s computer and spy on their activity. '
     Answers:
-    - 'fuck off '
-    - test
-    - 'owgopd '
-    - adasdasd
+    - 'Computer Worm '
+    - Malware
+    - Spyware
+    - 'Spy Trojan Horse '
     CorrectAnswer: 3
+  - Question: ' A type of malicious software that secretly installs itself on your
+      device and displays unwanted advertisements and pop-ups. '
+    Answers:
+    - Adware
+    - 'Computer Worm '
+    - 'Spy Trojan Horse '
+    - All of the above
+    CorrectAnswer: 0
+  - Question: ' Any software that installs itself on your computer and starts covertly
+      monitoring your online behavior without your knowledge or permission.'
+    Answers:
+    - Spyware
+    - 'Computer Worm '
+    - 'Spy Trojan Horse '
+    - None of the above
+    CorrectAnswer: 0
   options:
   - {fileID: 1332515564}
   - {fileID: 1661194775}
