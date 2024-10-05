@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TutorialPanel : MonoBehaviour
+public class AlmanacPanel : MonoBehaviour
 {
-    public GameObject howToPlayPanel;  // Main tutorial panel
+    public GameObject AlmanacP;  // Main tutorial panel
     public GameObject[] panels;        // Array of individual tutorial slides
     public Button nextButton;          // Button to go to the next slide
     public Button previousButton;      // Button to go to the previous slide
@@ -15,8 +15,8 @@ public class TutorialPanel : MonoBehaviour
 
     void Start()
     {
-        howToPlayPanel.SetActive(false);  // Initially, the tutorial is shown
-     
+        AlmanacP.SetActive(false);  // Initially, the tutorial is shown
+
         UpdatePanel();
     }
 
@@ -37,7 +37,6 @@ public class TutorialPanel : MonoBehaviour
             UpdatePanel();
         }
     }
-
     private void UpdatePanel()
     {
         // Activate the current panel and deactivate others
@@ -52,28 +51,27 @@ public class TutorialPanel : MonoBehaviour
         // Disable the Previous button if at the first panel
         previousButton.interactable = currentPanelIndex > 0;
     }
-
     void Update()
     {
         // Check for input to toggle the tutorial panel when 'T' is pressed
         if (Input.GetKeyDown(KeyCode.T))
         {
-            ToggleHowToPlay();
+            ToggleAlmanac();
         }
     }
     public void TogglePanel()
     {
-        ToggleHowToPlay();
+        ToggleAlmanac();
         Debug.Log("Pressed Toggle Panel");
     }
-   
 
-    public void ToggleHowToPlay()
+
+    public void ToggleAlmanac()
     {
-        if (howToPlayPanel.activeSelf)
+        if (AlmanacP.activeSelf)
         {
             // Unpause and hide the panel
-            howToPlayPanel.SetActive(false);
+            AlmanacP.SetActive(false);
             panels[currentPanelIndex].SetActive(false);      // Hide current slide
             nextButton.gameObject.SetActive(false);          // Hide next button
             previousButton.gameObject.SetActive(false);      // Hide previous button
@@ -83,7 +81,7 @@ public class TutorialPanel : MonoBehaviour
         else
         {
             // Pause the game and show the panel
-            howToPlayPanel.SetActive(true);
+            AlmanacP.SetActive(true);
             panels[currentPanelIndex].SetActive(true);       // Show current slide
             nextButton.gameObject.SetActive(true);           // Show next button
             previousButton.gameObject.SetActive(true);       // Show previous button
@@ -98,7 +96,7 @@ public class TutorialPanel : MonoBehaviour
     public void CloseHowToPlay()
     {
         // Hide the entire how-to-play panel
-        howToPlayPanel.SetActive(false);
+        AlmanacP.SetActive(false);
 
         // Hide the currently active tutorial slide
         panels[currentPanelIndex].SetActive(false);
