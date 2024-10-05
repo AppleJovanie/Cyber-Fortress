@@ -1038,7 +1038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510203cb1e147524e965dc5834dabf38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMoney: 1000
+  startMoney: 500
   startLives: 100
 --- !u!114 &195813121
 MonoBehaviour:
@@ -9119,7 +9119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3401958087476850580, guid: 13bc588490859ad42906fe67952f2bca, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7512096149868289591, guid: 13bc588490859ad42906fe67952f2bca, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -9623,7 +9623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 780999756749481539, guid: 98c0063e3a263ce428fe3ae68c73819e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -33.5
+      value: -117
       objectReference: {fileID: 0}
     - target: {fileID: 780999756749481539, guid: 98c0063e3a263ce428fe3ae68c73819e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
