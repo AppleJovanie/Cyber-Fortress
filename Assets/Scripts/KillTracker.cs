@@ -8,6 +8,7 @@ public class KillTracker : MonoBehaviour
     public int kills = 0;
     public int cubitzPerBatch = 200;
     public int killsPerBatch = 10;
+    private int totalEnemies; // Store the total number of enemies across all waves
 
     private void Awake()
     {
@@ -17,6 +18,11 @@ public class KillTracker : MonoBehaviour
             return;
         }
         instance = this;
+    }
+
+    public void SetTotalEnemies(int total)
+    {
+        totalEnemies = total;
     }
 
     public bool HasCubitzToCollect()
@@ -31,5 +37,10 @@ public class KillTracker : MonoBehaviour
             PlayerStats.Money += cubitzPerBatch;
             kills -= killsPerBatch;
         }
+    }
+    public bool HasKilledAllEnemies()
+    {
+        // Check if kills are equal to the total enemies
+        return kills >= totalEnemies;
     }
 }

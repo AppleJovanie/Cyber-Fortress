@@ -15,7 +15,7 @@ public class WaveSpawner : MonoBehaviour
     public Vector3 enemyRotation = new Vector3(0, 90.9f, 0); // Desired rotation for the enemy
     public GameObject ProceedToNextLevelPanel;
 
-    public static int EnemiesAlive = 0;
+    public static int EnemiesAlive = 0;  // Tracks enemies still alive in the scene
 
     public TextMeshProUGUI waveCountDownText;
     public TextMeshProUGUI waveMessageText; // Reference to the TextMeshProUGUI for wave message
@@ -23,34 +23,63 @@ public class WaveSpawner : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1f; // Ensure the game is running
-        countDown = 1.5f; // Initialize countdown to 4 seconds for player preparation
+        countDown = 1.5f; // Initialize countdown to 1.5 seconds for player preparation
         EnemiesAlive = 0; // Reset enemies alive count
+
+        // Calculate total enemies across both sets of waves
+        int totalEnemies = 0;
+        foreach (Wave wave in waves)
+        {
+            totalEnemies += wave.count;
+        }
+        foreach (Wave wave in waves2)
+        {
+            totalEnemies += wave.count;
+        }
+
+        // Set the totalEnemies in the KillTracker
+        KillTracker.instance.SetTotalEnemies(totalEnemies);
+
+        Debug.Log("Total enemies to kill: " + totalEnemies);
     }
 
     void Update()
     {
-        if (EnemiesAlive > 0) // Wait for all enemies to be destroyed before starting next wave
+        // Check if any enemies are alive
+       
+
+        // Don't proceed if there are enemies still alive
+        if (EnemiesAlive > 0)
         {
+            return;
+        }
+
+        // Check if the player has killed all enemies
+        if (KillTracker.instance.HasKilledAllEnemies())
+        {
+            Debug.Log("Player has killed all enemies! Showing 'You Won' panel.");
+            ProceedToNextLevelPanel.SetActive(true); // Show the panel
+            enabled = false; // Disable the WaveSpawner after all waves and enemies are done
             return;
         }
 
         // Freeze the countdown timer when wave starts and wait for 4 seconds before spawning
         if (countDown <= 0f)
         {
-            if (waveIndex1 < waves.Length || waveIndex2 < waves2.Length)
+            if (waveIndex1 >= waves.Length && waveIndex2 >= waves2.Length && EnemiesAlive == 0)
+            {
+                Debug.Log("All waves completed and all enemies destroyed!");
+
+                // Enable the ProceedToNextLevelPanel
+                ProceedToNextLevelPanel.SetActive(true);
+
+                enabled = false; // Disable the WaveSpawner after all waves and enemies are done
+            }
+            else
             {
                 countDown = 0f;
                 StartCoroutine(FreezeTimerAtZero()); // Freeze timer at zero before wave starts
                 countDown = timeBetweenWaves; // Reset the countdown for the next wave
-            }
-            else
-            {
-                // All waves are completed
-                Debug.Log("All waves completed!");
-                enabled = false; // Disable the WaveSpawner after all waves are completed
-
-                // Enable the ProceedToNextLevelPanel
-                ProceedToNextLevelPanel.SetActive(true);
             }
         }
 
@@ -59,6 +88,8 @@ public class WaveSpawner : MonoBehaviour
 
         countDown -= Time.deltaTime;
     }
+
+
 
     IEnumerator FreezeTimerAtZero()
     {
@@ -118,10 +149,10 @@ public class WaveSpawner : MonoBehaviour
             }
             waveIndex2++;
         }
-        PlayerStats.Rounds++;
 
-        yield return null;
+        yield return null; // Ensures that the method returns an IEnumerator
     }
+
 
     IEnumerator SpawnWave(Wave wave, Transform spawnPoint, Transform[] waypoints)
     {
@@ -151,5 +182,11 @@ public class WaveSpawner : MonoBehaviour
         }
 
         EnemiesAlive++;
+    }
+
+    // Call this method when an enemy dies
+    public static void OnEnemyKilled()
+    {
+        EnemiesAlive--;
     }
 }
