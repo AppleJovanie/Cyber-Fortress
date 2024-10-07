@@ -19,36 +19,60 @@ public class Enemies : MonoBehaviour
     void Start()
     {
         health = startHealth;
-        target = waypoints[0];
+        if (waypoints != null && waypoints.Length > 0)
+        {
+            target = waypoints[wavePointIndex]; // Ensure that the enemy starts at the correct waypoint
+        }
+        else
+        {
+            Debug.LogWarning("No waypoints assigned to enemy at start!");
+        }
+    }
+    public void IncreaseHealth(int waveNumber)
+    {
+        // Scale health by multiplying the wave number by a factor
+        float healthMultiplier = 1 + (waveNumber * 0.1f); // Adjust the multiplier as needed
+        health = startHealth * healthMultiplier;
+        healthBar.fillAmount = health / startHealth;
     }
 
+    // Set the waypoints for the enemy to follow
     public void SetWaypoints(Transform[] waypoints)
     {
         this.waypoints = waypoints;
+        if (waypoints.Length > 0)
+        {
+            target = waypoints[wavePointIndex]; // Assign the initial target when waypoints are set
+        }
     }
 
+    // Set the current waypoint index and target it
     public void SetCurrentWaypointIndex(int index)
     {
         wavePointIndex = index;
         target = waypoints[wavePointIndex];
     }
 
+    // Get the current waypoint index for saving
     public int GetCurrentWaypointIndex()
     {
         return wavePointIndex;
     }
 
+    // Set the health and update the health bar
     public void SetHealth(float newHealth)
     {
         health = newHealth;
         healthBar.fillAmount = health / startHealth;
     }
 
+    // Get the current health for saving
     public float GetHealth()
     {
         return health;
     }
 
+    // Method to handle damage and death
     public void TakeDamage(float amount)
     {
         health -= amount;
@@ -59,6 +83,7 @@ public class Enemies : MonoBehaviour
         }
     }
 
+    // Method to handle enemy death
     void Die()
     {
         PlayerStats.Money += value;
@@ -69,6 +94,7 @@ public class Enemies : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // Update is called once per frame
     void Update()
     {
         if (waypoints == null || waypoints.Length == 0)
@@ -88,12 +114,14 @@ public class Enemies : MonoBehaviour
             head.transform.rotation = Quaternion.Lerp(head.transform.rotation, lookRotation, Time.deltaTime * speed);
         }
 
+        // Move to the next waypoint when close to the current one
         if (Vector3.Distance(transform.position, target.position) <= 0.4f)
         {
             GetNextWayPoint();
         }
     }
 
+    // Get the next waypoint and set it as the target
     void GetNextWayPoint()
     {
         if (wavePointIndex >= waypoints.Length - 1)
@@ -105,17 +133,16 @@ public class Enemies : MonoBehaviour
         target = waypoints[wavePointIndex];
     }
 
+    // Handle what happens when the enemy reaches the end of the path
     void EndPath()
     {
-        // Determine which enemy type this is based on its tag
-        string enemyTag = gameObject.tag; // Assuming each enemy has its tag set correctly
+        string enemyTag = gameObject.tag;
 
-        // Reduce player lives based on the enemy tag
+        // Deduct lives based on the enemy type
         switch (enemyTag)
         {
             case "TrojanHorse":
                 PlayerStats.Lives -= 10;
-                Debug.Log("Lives Deducted: " + PlayerStats.Lives);
                 break;
             case "ComputerWorm":
                 PlayerStats.Lives -= 15;
@@ -134,12 +161,11 @@ public class Enemies : MonoBehaviour
                 break;
         }
 
-        // Decrease the EnemiesAlive count and destroy the enemy
         WaveSpawner.EnemiesAlive--;
         Destroy(gameObject);
     }
 
-    // Method to get data for saving
+    // Method to get data for saving the enemy
     public EnemyData GetEnemyData()
     {
         return new EnemyData
@@ -151,7 +177,7 @@ public class Enemies : MonoBehaviour
         };
     }
 
-    // Method to set data when loading
+    // Method to set data when loading the enemy
     public void SetEnemyData(EnemyData data)
     {
         transform.position = data.position.ToVector3();
@@ -159,10 +185,9 @@ public class Enemies : MonoBehaviour
         healthBar.fillAmount = health / startHealth;
         wavePointIndex = data.waypointIndex;
 
-        // If waypoints are set, adjust the target accordingly
         if (waypoints != null && waypoints.Length > 0)
         {
-            target = waypoints[wavePointIndex];
+            target = waypoints[wavePointIndex]; // Ensure the enemy targets the correct waypoint after loading
         }
     }
 }

@@ -26,15 +26,19 @@ public class WaveSpawner : MonoBehaviour
         countDown = 1.5f; // Initialize countdown to 1.5 seconds for player preparation
         EnemiesAlive = 0; // Reset enemies alive count
 
-        // Calculate total enemies across both sets of waves
+        // Calculate total enemies across both sets of waves (only if waves2 is used)
         int totalEnemies = 0;
         foreach (Wave wave in waves)
         {
             totalEnemies += wave.count;
         }
-        foreach (Wave wave in waves2)
+
+        if (waves2 != null && waves2.Length > 0)
         {
-            totalEnemies += wave.count;
+            foreach (Wave wave in waves2)
+            {
+                totalEnemies += wave.count;
+            }
         }
 
         // Set the totalEnemies in the KillTracker
@@ -46,12 +50,9 @@ public class WaveSpawner : MonoBehaviour
     void Update()
     {
         // Check if any enemies are alive
-       
-
-        // Don't proceed if there are enemies still alive
         if (EnemiesAlive > 0)
         {
-            return;
+            return; // Don't proceed if there are enemies still alive
         }
 
         // Check if the player has killed all enemies
@@ -63,17 +64,15 @@ public class WaveSpawner : MonoBehaviour
             return;
         }
 
-        // Freeze the countdown timer when wave starts and wait for 4 seconds before spawning
+        // If countdown reaches zero, process the next wave(s)
         if (countDown <= 0f)
         {
-            if (waveIndex1 >= waves.Length && waveIndex2 >= waves2.Length && EnemiesAlive == 0)
+            if (waveIndex1 >= waves.Length && (waves2 == null || waveIndex2 >= waves2.Length) && EnemiesAlive == 0)
             {
                 Debug.Log("All waves completed and all enemies destroyed!");
-
-                // Enable the ProceedToNextLevelPanel
                 ProceedToNextLevelPanel.SetActive(true);
-
                 enabled = false; // Disable the WaveSpawner after all waves and enemies are done
+                return;
             }
             else
             {
@@ -89,8 +88,6 @@ public class WaveSpawner : MonoBehaviour
         countDown -= Time.deltaTime;
     }
 
-
-
     IEnumerator FreezeTimerAtZero()
     {
         // Display zero and freeze the timer for 4 seconds to allow player preparation
@@ -99,18 +96,23 @@ public class WaveSpawner : MonoBehaviour
         // Wait for 4 seconds to give the player time to prepare
         yield return new WaitForSeconds(4f);
 
-        // After the 4-second freeze, show the wave message and start spawning the wave
-        StartCoroutine(DisplayWaveMessage());
+        // After the 4-second freeze, show the wave message and start spawning the wave if waves are remaining
+        if (waveIndex1 < waves.Length || (waves2 != null && waveIndex2 < waves2.Length))
+        {
+            StartCoroutine(DisplayWaveMessage());
+        }
     }
 
     IEnumerator DisplayWaveMessage()
     {
+        // Display the wave message if there are more waves to come
         int currentWave = Mathf.Max(waveIndex1, waveIndex2) + 1;
         waveMessageText.text = "Wave " + currentWave + " Good Luck";
         waveMessageText.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
+        // Fade out the wave message
         float fadeDuration = 1.5f;
         float elapsedTime = 0f;
         Color originalColor = waveMessageText.color;
@@ -136,16 +138,16 @@ public class WaveSpawner : MonoBehaviour
         if (waveIndex1 < waves.Length)
         {
             Wave wave1 = waves[waveIndex1];
-            StartCoroutine(SpawnWave(wave1, spawnPoint1, WayPointSystem.wayPoints)); // Use WayPointSystem.wayPoints for spawnPoint1
+            StartCoroutine(SpawnWave(wave1, spawnPoint1, WayPointSystem.wayPoints, waveIndex1)); // Pass waveIndex1 to increase health
             waveIndex1++;
         }
 
-        if (waveIndex2 < waves2.Length)
+        if (waves2 != null && waveIndex2 < waves2.Length)
         {
             Wave wave2 = waves2[waveIndex2];
             if (wave2 != null)
             {
-                StartCoroutine(SpawnWave(wave2, spawnPoint2, Waypoints2.wayPoints2)); // Use Waypoints2.wayPoints2 for spawnPoint2
+                StartCoroutine(SpawnWave(wave2, spawnPoint2, Waypoints2.wayPoints2, waveIndex2)); // Pass waveIndex2 to increase health
             }
             waveIndex2++;
         }
@@ -153,20 +155,19 @@ public class WaveSpawner : MonoBehaviour
         yield return null; // Ensures that the method returns an IEnumerator
     }
 
-
-    IEnumerator SpawnWave(Wave wave, Transform spawnPoint, Transform[] waypoints)
+    IEnumerator SpawnWave(Wave wave, Transform spawnPoint, Transform[] waypoints, int waveNumber)
     {
         float spawnInterval = wave.spawnInterval;
 
         for (int i = 0; i < wave.count; i++)
         {
             Debug.Log("Spawning enemy");
-            SpawnEnemy(wave.enemyPrefab, spawnPoint, waypoints);
+            SpawnEnemy(wave.enemyPrefab, spawnPoint, waypoints, waveNumber); // Pass waveNumber for health scaling
             yield return new WaitForSeconds(spawnInterval); // Wait between enemy spawns
         }
     }
 
-    void SpawnEnemy(GameObject enemy, Transform spawnPoint, Transform[] waypoints)
+    void SpawnEnemy(GameObject enemy, Transform spawnPoint, Transform[] waypoints, int waveNumber)
     {
         Vector3 spawnPosition = spawnPoint.position;
         Quaternion rotation = Quaternion.Euler(enemyRotation);
@@ -179,6 +180,9 @@ public class WaveSpawner : MonoBehaviour
         if (enemyScript != null)
         {
             enemyScript.SetWaypoints(waypoints);
+
+            // Increase enemy health based on wave number
+            enemyScript.IncreaseHealth(waveNumber); // Increase health with each wave
         }
 
         EnemiesAlive++;
