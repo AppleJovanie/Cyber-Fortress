@@ -304,7 +304,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SfxSource: {fileID: 9158938834867667285}
   musicSource: {fileID: 1291130606661348995}
-  laserEffect: {fileID: 0}
   background: {fileID: 8300000, guid: be4c59eb2a0ebe24391420e778403672, type: 3}
   bulletImpact: {fileID: 8300000, guid: bb41f96f4f7e7d94499520228d60b4f4, type: 3}
-  LaserEffect: {fileID: 8300000, guid: 4fe8de7755d219546a3683d0e6eefaf1, type: 3}
+  LaserEffect: {fileID: 8300000, guid: a06802176612dd248ae5f8b56a3c9c3e, type: 3}
+  UpgradeEffect: {fileID: 8300000, guid: 308e80a167b4e5541b64ffa3ceee0d10, type: 3}
+  SellEffect: {fileID: 8300000, guid: 5c4041ecac27c8a49bd7f312b3f72897, type: 3}
+  BuildingEffect: {fileID: 8300000, guid: 371f8233f598d5f4d9f20c9c2010ba00, type: 3}

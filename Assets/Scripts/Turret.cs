@@ -133,6 +133,7 @@ public class Turret : MonoBehaviour
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;
+            audioManager.PlaySfx(audioManager.LaserEffect);
         }
 
         lineRenderer.SetPosition(0, firePoint.position);
