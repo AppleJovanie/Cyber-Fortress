@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
@@ -33,6 +34,8 @@ public class Turret : MonoBehaviour
     public void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+
+     
     }
 
     void Start()
@@ -123,17 +126,26 @@ public class Turret : MonoBehaviour
     {
         if (target == null || Vector3.Distance(transform.position, target.position) > range)
         {
+            // Disable line renderer and stop laser audio if target is out of range
             if (lineRenderer.enabled)
             {
                 lineRenderer.enabled = false;
+                if (AudioManager.Instance.laser.isPlaying)
+                {
+                    AudioManager.Instance.laser.Stop();
+                }
             }
             return;
         }
 
+        // Enable line renderer and play laser audio if target is within range
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;
-            audioManager.PlaySfx(audioManager.LaserEffect);
+            if (!AudioManager.Instance.laser.isPlaying)
+            {
+                AudioManager.Instance.laser.Play();
+            }
         }
 
         lineRenderer.SetPosition(0, firePoint.position);
@@ -145,6 +157,8 @@ public class Turret : MonoBehaviour
             targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
         }
     }
+
+
 
     void Shoot()
     {
