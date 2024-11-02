@@ -7,6 +7,7 @@ public class Turret : MonoBehaviour
 {
     private Transform target;
     private Enemies targetEnemy;
+    private Transform previousTarget;
 
     [Header("General")]
     public float range = 15f;
@@ -34,8 +35,6 @@ public class Turret : MonoBehaviour
     public void Awake()
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-
-     
     }
 
     void Start()
@@ -99,7 +98,6 @@ public class Turret : MonoBehaviour
 
         if (useLaser)
         {
-            
             Laser();
         }
         else
@@ -126,7 +124,6 @@ public class Turret : MonoBehaviour
     {
         if (target == null || Vector3.Distance(transform.position, target.position) > range)
         {
-            // Disable line renderer and stop laser audio if target is out of range
             if (lineRenderer.enabled)
             {
                 lineRenderer.enabled = false;
@@ -138,14 +135,20 @@ public class Turret : MonoBehaviour
             return;
         }
 
-        // Enable line renderer and play laser audio if target is within range
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;
-            if (!AudioManager.Instance.laser.isPlaying)
+        }
+
+        // Check if the target has changed, and if so, restart the audio
+        if (target != previousTarget)
+        {
+            if (AudioManager.Instance.laser.isPlaying)
             {
-                AudioManager.Instance.laser.Play();
+                AudioManager.Instance.laser.Stop();
             }
+            AudioManager.Instance.laser.Play();
+            previousTarget = target; // Update previousTarget to the current one
         }
 
         lineRenderer.SetPosition(0, firePoint.position);
@@ -157,8 +160,6 @@ public class Turret : MonoBehaviour
             targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
         }
     }
-
-
 
     void Shoot()
     {

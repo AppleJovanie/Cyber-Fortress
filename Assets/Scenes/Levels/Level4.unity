@@ -7656,18 +7656,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2591553146383278185, guid: 2da9fc19e4f773f4588ad5135dddf884, type: 3}
-      propertyPath: SellEffect
-      value: 
-      objectReference: {fileID: 8300000, guid: 5c4041ecac27c8a49bd7f312b3f72897, type: 3}
-    - target: {fileID: 2591553146383278185, guid: 2da9fc19e4f773f4588ad5135dddf884, type: 3}
-      propertyPath: UpgradeEffect
-      value: 
-      objectReference: {fileID: 8300000, guid: 308e80a167b4e5541b64ffa3ceee0d10, type: 3}
-    - target: {fileID: 2591553146383278185, guid: 2da9fc19e4f773f4588ad5135dddf884, type: 3}
-      propertyPath: BuildingEffect
-      value: 
-      objectReference: {fileID: 8300000, guid: 371f8233f598d5f4d9f20c9c2010ba00, type: 3}
     - target: {fileID: 8460799363128243685, guid: 2da9fc19e4f773f4588ad5135dddf884, type: 3}
       propertyPath: m_LocalPosition.x
       value: 349.85205
