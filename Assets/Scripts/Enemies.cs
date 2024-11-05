@@ -91,6 +91,7 @@ public class Enemies : MonoBehaviour
         Instantiate(deathEffect, transform.position, Quaternion.identity);
 
         WaveSpawner.EnemiesAlive--;
+        Debug.Log("Enemy died. EnemiesAlive: " + WaveSpawner.EnemiesAlive); // Debug log
         Destroy(gameObject);
     }
 
@@ -138,7 +139,6 @@ public class Enemies : MonoBehaviour
     {
         string enemyTag = gameObject.tag;
 
-        // Deduct lives based on the enemy type
         switch (enemyTag)
         {
             case "TrojanHorse":
@@ -162,6 +162,7 @@ public class Enemies : MonoBehaviour
         }
 
         WaveSpawner.EnemiesAlive--;
+        Debug.Log("Enemy reached end path. EnemiesAlive: " + WaveSpawner.EnemiesAlive); // Debug log
         Destroy(gameObject);
     }
 

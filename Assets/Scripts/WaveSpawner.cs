@@ -34,32 +34,34 @@ public class WaveSpawner : MonoBehaviour
 
     void Update()
     {
-        if (EnemiesAlive > 0 || KillTracker.instance.HasKilledAllEnemies())
+        // Check if no enemies are left and all waves are completed
+        if (EnemiesAlive <= 0 && waveIndex1 >= waves.Length && (waves2 == null || waveIndex2 >= waves2.Length))
         {
-            if (KillTracker.instance.HasKilledAllEnemies())
+            // Extra check to confirm no remaining enemy objects in the scene
+            if (GameObject.FindWithTag("Enemy") == null)
             {
+                Debug.Log("All waves completed and all enemies cleared. Showing 'You Won' panel.");
                 ProceedToNextLevelPanel.SetActive(true);
                 enabled = false;
+                return;
             }
-            return;
         }
 
-        if (countDown <= 0f)
+        // Handle countdown to next wave
+        if (countDown <= 0f && EnemiesAlive == 0)
         {
-            if (waveIndex1 >= waves.Length && (waves2 == null || waveIndex2 >= waves2.Length))
-            {
-                ProceedToNextLevelPanel.SetActive(true);
-                enabled = false;
-            }
-            else
+            if (waveIndex1 < waves.Length || (waves2 != null && waveIndex2 < waves2.Length))
             {
                 countDown = timeBetweenWaves;
                 StartCoroutine(FreezeTimerAtZero());
             }
         }
+
         waveCountDownText.text = string.Format("{0:00.00}", Mathf.Max(0f, countDown));
         countDown -= Time.deltaTime;
     }
+
+
 
     int CalculateTotalEnemies()
     {
@@ -147,10 +149,12 @@ public class WaveSpawner : MonoBehaviour
         }
 
         EnemiesAlive++;
+        Debug.Log("Enemy spawned. Current EnemiesAlive: " + EnemiesAlive);
     }
 
     public static void OnEnemyKilled()
     {
         EnemiesAlive = Mathf.Max(EnemiesAlive - 1, 0);
+        Debug.Log("Enemy killed. Remaining EnemiesAlive: " + EnemiesAlive);
     }
 }

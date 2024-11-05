@@ -40,6 +40,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Menu()
     {
+
+        AudioManager.Instance.StopBackgroundMusic();
         Toggle();
         sceneFader.FadeTo(menuScene);
     }
