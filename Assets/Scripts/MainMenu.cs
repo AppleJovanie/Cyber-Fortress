@@ -5,13 +5,16 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public SceneFader sceneFader;
-    public AudioClip background; // Reference to the background music clip
+  
     public float fadeDuration = 1f; // Local fade duration in MainMenu
 
     void Start()
     {
         PlayerStats.Rounds = 0; // Reset rounds when starting a new game
+       
+
     }
+
 
     public void Play()
     {
@@ -28,9 +31,7 @@ public class MainMenu : MonoBehaviour
         // Wait for the fade to complete, using the local fadeDuration
         yield return new WaitForSeconds(fadeDuration);
 
-        
-         
-        
+               
     }
 
     public void Quit()
