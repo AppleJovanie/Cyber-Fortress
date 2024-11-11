@@ -25,7 +25,7 @@ public class Turret : MonoBehaviour
     [Header("Use Laser")]
     public bool useLaser = false;
     public LineRenderer lineRenderer;
-    public float damageOverTime = 30f; // Damage per second
+   [SerializeField] public float damageOverTime = 30f; // Damage per second
     public float slowAmount = 0.5f; // Slow percentage
 
     public Transform firePoint;
@@ -158,6 +158,8 @@ public class Turret : MonoBehaviour
         if (targetEnemy != null)
         {
             targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+            Debug.Log("Laser Damage Per Frame: " + (damageOverTime * Time.deltaTime));
+
         }
     }
 

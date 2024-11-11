@@ -6181,8 +6181,8 @@ RectTransform:
   - {fileID: 1358233323}
   - {fileID: 516410171}
   - {fileID: 1255960712}
-  - {fileID: 975556169}
   - {fileID: 631156028}
+  - {fileID: 975556169}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8948,10 +8948,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 195813124}
-    - target: {fileID: 3906637219218238921, guid: 9e6374d091ad254479f977422d42b2d8, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Proceedafterlvl1
-      objectReference: {fileID: 0}
     - target: {fileID: 4688033245196967519, guid: 9e6374d091ad254479f977422d42b2d8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

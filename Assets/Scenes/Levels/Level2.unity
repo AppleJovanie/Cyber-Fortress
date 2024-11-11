@@ -7253,9 +7253,9 @@ RectTransform:
   m_Children:
   - {fileID: 1831897171}
   - {fileID: 1715249574}
-  - {fileID: 1442146121}
   - {fileID: 1358233323}
   - {fileID: 516410171}
+  - {fileID: 1442146121}
   - {fileID: 1341931913}
   - {fileID: 1395700965}
   m_Father: {fileID: 0}

@@ -1349,8 +1349,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 25
-  bulletPrefab: {fileID: 5291131614118605440, guid: be84ffd9053eb534e908d58b3e4022c2, type: 3}
-  fireRate: 4
+  bulletPrefab: {fileID: 5291131614118605440, guid: adee567e14fcd4d49b84da4181df0f2f, type: 3}
+  fireRate: 1
   enemyTags:
   - TrojanHorse
   - ComputerWorm
@@ -1361,4 +1361,6 @@ MonoBehaviour:
   turnSpeed: 10
   useLaser: 0
   lineRenderer: {fileID: 0}
+  damageOverTime: 30
+  slowAmount: 0.5
   firePoint: {fileID: 1860330016082061018}

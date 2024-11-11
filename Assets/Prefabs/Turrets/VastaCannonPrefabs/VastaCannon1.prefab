@@ -162,8 +162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 345360a6a6609b442a3d3acca9b4941a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 15
-  bulletPrefab: {fileID: 5291131614118605440, guid: be84ffd9053eb534e908d58b3e4022c2, type: 3}
+  range: 23
+  bulletPrefab: {fileID: 5291131614118605440, guid: e61da054f2765d849abd8e39bc0fde47, type: 3}
   fireRate: 1
   enemyTags:
   - TrojanHorse
@@ -175,6 +175,8 @@ MonoBehaviour:
   turnSpeed: 10
   useLaser: 0
   lineRenderer: {fileID: 0}
+  damageOverTime: 30
+  slowAmount: 0.5
   firePoint: {fileID: 2381101878266601518}
 --- !u!1 &5251617851731293462
 GameObject:
