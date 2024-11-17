@@ -10,6 +10,7 @@ public class TutorialPanel : MonoBehaviour
     public Button nextButton;          // Button to go to the next slide
     public Button previousButton;      // Button to go to the previous slide
     public Button closeButton;         // Button to close the tutorial
+    public GameObject MainMenuPanel;
 
     private int currentPanelIndex = 0;
 
@@ -102,6 +103,7 @@ public class TutorialPanel : MonoBehaviour
 
         // Hide the currently active tutorial slide
         panels[currentPanelIndex].SetActive(false);
+        MainMenuPanel.SetActive(true);
 
         // Hide all buttons
         nextButton.gameObject.SetActive(false);

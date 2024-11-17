@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro; // Import TextMeshPro namespace
 using UnityEngine.UI;
 
 public class Enemies : MonoBehaviour
@@ -15,6 +16,7 @@ public class Enemies : MonoBehaviour
     public Image healthBar;
 
     private Transform[] waypoints;
+    public TMP_Text LivesText; // Use TMP_Text for better text rendering
 
     void Start()
     {
@@ -28,6 +30,7 @@ public class Enemies : MonoBehaviour
             Debug.LogWarning("No waypoints assigned to enemy at start!");
         }
     }
+
     public void IncreaseHealth(int waveNumber)
     {
         // Scale health by multiplying the wave number by a factor
@@ -137,33 +140,67 @@ public class Enemies : MonoBehaviour
     // Handle what happens when the enemy reaches the end of the path
     void EndPath()
     {
+        int damage = 0;
         string enemyTag = gameObject.tag;
 
+        // Determine the damage to lives based on the enemy's tag
         switch (enemyTag)
         {
             case "TrojanHorse":
-                PlayerStats.Lives -= 10;
+                damage = 10;
                 break;
             case "ComputerWorm":
-                PlayerStats.Lives -= 15;
+                damage = 15;
                 break;
             case "Spyware":
-                PlayerStats.Lives -= 18;
+                damage = 18;
                 break;
             case "Adware":
-                PlayerStats.Lives -= 20;
+                damage = 20;
                 break;
             case "Malware":
-                PlayerStats.Lives -= 50;
+                damage = 50;
+                break;
+            case "ComputerWormBoss":
+                damage = 25;
                 break;
             default:
                 Debug.LogWarning("Unknown enemy type: " + enemyTag);
                 break;
         }
 
+        if (damage > 0)
+        {
+            PlayerStats.Lives = Mathf.Max(0, PlayerStats.Lives - damage); // Prevent negative lives
+
+            // Use LiveUIManager to update UI
+            LiveUIManager uiManager = FindObjectOfType<LiveUIManager>();
+            if (uiManager != null)
+            {
+                uiManager.UpdateLivesUI(PlayerStats.Lives);
+                uiManager.ShowDamage(damage);
+            }
+
+            // Handle game over if lives reach 0
+            if (PlayerStats.Lives <= 0)
+            {
+                GameOver();
+            }
+        }
+
         WaveSpawner.EnemiesAlive--;
         Debug.Log("Enemy reached end path. EnemiesAlive: " + WaveSpawner.EnemiesAlive); // Debug log
         Destroy(gameObject);
+    }
+
+    void GameOver()
+    {
+        FreezeGame(true);
+    }
+
+    private void FreezeGame(bool freeze)
+    {
+        Time.timeScale = freeze ? 0f : 1f; // Freeze or unfreeze the game
     }
 
     // Method to get data for saving the enemy

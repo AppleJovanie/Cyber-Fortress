@@ -12,26 +12,36 @@ public class QuizManager : MonoBehaviour
     public Text QuestionTxt; // UI Text for displaying the question
     public GameObject QuizPanel; // Panel for the quiz
     public GameObject GoPanel; // Panel for game over
+    public GameObject ProceedButton; // Button to proceed to the next level
+    public GameObject TryAgainButton; // Button to retry the quiz
 
     public Text ScoreTxt; // UI Text for displaying the score
     private int totalQuestions = 0; // Total number of questions
     public int score; // Player score
 
+    // UI Text for feedback
+    public Text YouPassedText;
+    public Text YouFailedText;
+
     private void Start()
     {
         totalQuestions = QnA.Count; // Set total questions from the list
         GoPanel.SetActive(false); // Hide the game over panel initially
+        ProceedButton.SetActive(false); // Ensure the Proceed button is hidden initially
+        TryAgainButton.SetActive(false); // Ensure the Try Again button is hidden initially
+        YouPassedText.gameObject.SetActive(false); // Hide the "You Passed" text
+        YouFailedText.gameObject.SetActive(false); // Hide the "You Failed" text
         GenerateQuestion(); // Generate the first question
     }
 
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Restart the quiz
+        SceneManager.LoadScene("PreviousSceneName"); // Replace with the name of the previous scene
     }
 
-    public void MainMenu()
+    public void Proceed()
     {
-        SceneManager.LoadScene("MainMenu"); // Load the main menu scene
+        SceneManager.LoadScene("NextSceneName"); // Replace with the name of the next scene
     }
 
     public void Correct()
@@ -52,6 +62,17 @@ public class QuizManager : MonoBehaviour
         QuizPanel.SetActive(false); // Hide the quiz panel
         GoPanel.SetActive(true); // Show the game over panel
         ScoreTxt.text = score + "/" + totalQuestions; // Display the score
+
+        if (score >= 2) // Player passed with 2/3 or higher
+        {
+            YouPassedText.gameObject.SetActive(true); // Show "You Passed" text
+            ProceedButton.SetActive(true); // Show the Proceed button
+        }
+        else // Player failed with less than 2/3
+        {
+            YouFailedText.gameObject.SetActive(true); // Show "You Failed" text
+            TryAgainButton.SetActive(true); // Show the Try Again button
+        }
     }
 
     void SetAnswers()

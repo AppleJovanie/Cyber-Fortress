@@ -358,7 +358,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749949875416303405}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.56975}
+  m_LocalPosition: {x: 0, y: 0, z: -2.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -366,8 +366,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.004196167, y: 7.89}
-  m_SizeDelta: {x: 0.023376, y: 15.22}
+  m_AnchoredPosition: {x: -0, y: 16.9}
+  m_SizeDelta: {x: -1.56, y: 31.59}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1874239933906979784
 CanvasRenderer:
@@ -1097,7 +1097,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5253935938881920114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1106,8 +1106,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 4.9}
-  m_SizeDelta: {x: 0, y: 10}
+  m_AnchoredPosition: {x: 1.300003, y: 16.1}
+  m_SizeDelta: {x: 0, y: 31.91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &978566634663139431
 CanvasRenderer:
@@ -1223,6 +1223,7 @@ MonoBehaviour:
   head: {fileID: 0}
   deathEffect: {fileID: 0}
   healthBar: {fileID: 4658357492503766059}
+  LivesText: {fileID: 0}
 --- !u!54 &6087067771994376534
 Rigidbody:
   m_ObjectHideFlags: 0

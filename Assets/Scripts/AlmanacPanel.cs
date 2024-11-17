@@ -6,17 +6,17 @@ using UnityEngine.UI;
 public class AlmanacPanel : MonoBehaviour
 {
     public GameObject AlmanacP;  // Main tutorial panel
-    public GameObject[] panels;        // Array of individual tutorial slides
-    public Button nextButton;          // Button to go to the next slide
-    public Button previousButton;      // Button to go to the previous slide
-    public Button closeButton;         // Button to close the tutorial
+    public GameObject[] panels;  // Array of individual tutorial slides
+    public Button nextButton;    // Button to go to the next slide
+    public Button previousButton; // Button to go to the previous slide
+    public Button closeButton;   // Button to close the tutorial
+    public AudioSource backgroundMusic; // Reference to the background music AudioSource
 
     private int currentPanelIndex = 0;
 
     void Start()
     {
-        AlmanacP.SetActive(false);  // Initially, the tutorial is shown
-
+        AlmanacP.SetActive(false);  // Initially, the tutorial is hidden
         UpdatePanel();
     }
 
@@ -37,6 +37,7 @@ public class AlmanacPanel : MonoBehaviour
             UpdatePanel();
         }
     }
+
     private void UpdatePanel()
     {
         // Activate the current panel and deactivate others
@@ -51,6 +52,7 @@ public class AlmanacPanel : MonoBehaviour
         // Disable the Previous button if at the first panel
         previousButton.interactable = currentPanelIndex > 0;
     }
+
     void Update()
     {
         // Check for input to toggle the tutorial panel when 'T' is pressed
@@ -59,34 +61,42 @@ public class AlmanacPanel : MonoBehaviour
             ToggleAlmanac();
         }
     }
+
     public void TogglePanel()
     {
         ToggleAlmanac();
         Debug.Log("Pressed Toggle Panel");
     }
 
-
     public void ToggleAlmanac()
     {
         if (AlmanacP.activeSelf)
         {
-            // Unpause and hide the panel
+            // Unpause, hide the panel, and resume music
             AlmanacP.SetActive(false);
             panels[currentPanelIndex].SetActive(false);      // Hide current slide
             nextButton.gameObject.SetActive(false);          // Hide next button
             previousButton.gameObject.SetActive(false);      // Hide previous button
             closeButton.gameObject.SetActive(false);         // Hide close button
             Time.timeScale = 1f;
+
+            // Resume the background music
+            if (backgroundMusic != null)
+                backgroundMusic.Play();
         }
         else
         {
-            // Pause the game and show the panel
+            // Pause the game, show the panel, and stop the music
             AlmanacP.SetActive(true);
             panels[currentPanelIndex].SetActive(true);       // Show current slide
             nextButton.gameObject.SetActive(true);           // Show next button
             previousButton.gameObject.SetActive(true);       // Show previous button
             closeButton.gameObject.SetActive(true);          // Show close button
             Time.timeScale = 0f;
+
+            // Pause the background music
+            if (backgroundMusic != null)
+                backgroundMusic.Pause();
 
             // Ensure buttons are updated based on the current panel
             UpdatePanel();
@@ -108,5 +118,9 @@ public class AlmanacPanel : MonoBehaviour
 
         // Resume game time
         Time.timeScale = 1f;
+
+        // Resume the background music
+        if (backgroundMusic != null)
+            backgroundMusic.Play();
     }
 }

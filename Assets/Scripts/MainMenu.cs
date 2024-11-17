@@ -12,7 +12,6 @@ public class MainMenu : MonoBehaviour
     {
         PlayerStats.Rounds = 0; // Reset rounds when starting a new game
        
-
     }
 
 
@@ -20,7 +19,7 @@ public class MainMenu : MonoBehaviour
     {
         Time.timeScale = 1f; // Ensure the game starts in a running state
         StartCoroutine(StartGameAfterFade());
-        AudioManager.Instance.PlayBackgroundMusic();
+     // AudioManager.Instance.PlayBackgroundMusic();
     }
 
     private IEnumerator StartGameAfterFade()
@@ -51,7 +50,7 @@ public class MainMenu : MonoBehaviour
 
             Time.timeScale = 1f; // Ensure the game is running
             sceneFader.FadeTo(data.currentLevel);
-            AudioManager.Instance.PlayBackgroundMusic();
+         // AudioManager.Instance.PlayBackgroundMusic();
         }
     }
 }

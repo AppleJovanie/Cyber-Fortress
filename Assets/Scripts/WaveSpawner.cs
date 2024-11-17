@@ -43,6 +43,7 @@ public class WaveSpawner : MonoBehaviour
                 Debug.Log("All waves completed and all enemies cleared. Showing 'You Won' panel.");
                 //If The you won panel has shown disable SFX
                 ProceedToNextLevelPanel.SetActive(true);
+                
                 enabled = false;
                 return;
             }
