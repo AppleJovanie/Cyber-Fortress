@@ -1033,7 +1033,7 @@ MonoBehaviour:
   pauseMenuUi: {fileID: 516410170}
   audioMenuUi: {fileID: 904784933}
   sceneFader: {fileID: 1943258349}
-  menuScene: MainMenu
+  menuScene: MainMenuNewScene
 --- !u!114 &195813123
 MonoBehaviour:
   m_ObjectHideFlags: 0

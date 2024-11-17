@@ -7,7 +7,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUi;
     public GameObject audioMenuUi; // Reference to the audio settings panel
     public SceneFader sceneFader;
-    public string menuScene = "MainMenu";
+    public string menuScene = "MainMenuNewScene";
 
     private GameObject currentPanel; // Track the current panel
 

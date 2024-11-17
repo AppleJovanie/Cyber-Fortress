@@ -38,7 +38,7 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Quitting...");
         Application.Quit();
     }
-
+    
     public void Load()
     {
         PlayerData data = SaveSystem.LoadPlayer();
@@ -50,7 +50,7 @@ public class MainMenu : MonoBehaviour
 
             Time.timeScale = 1f; // Ensure the game is running
             sceneFader.FadeTo(data.currentLevel);
-         // AudioManager.Instance.PlayBackgroundMusic();
+         //AudioManager.Instance.PlayBackgroundMusic();
         }
     }
 }
