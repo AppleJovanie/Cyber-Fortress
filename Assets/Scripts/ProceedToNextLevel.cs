@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class ProceedToNextLevel : MonoBehaviour
 {
-    public string level2 = "Level2";
-    public string level3 = "Level3";
-    public string level4 = "Level4";
-    public string level5 = "Level5";
-    public string OutroStory = "OutroSceneStory";
-    public string Minigame = "MiniGame";
+    public int level2 = 3;
+    public int level3 = 5;
+    public int level4 = 7;
+    public int level5 = 9;
+    public int OutroStory = 12;
+
     public void Proceedafterlvl1()
     {
         SceneManager.LoadScene(level2);
