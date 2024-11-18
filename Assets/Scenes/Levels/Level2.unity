@@ -1024,12 +1024,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdab1129e21522442b4b1d09b9632afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level2: Level2
-  level3: Level3
-  level4: Level4
-  level5: Level5
-  OutroStory: OutroSceneStory
-  Minigame: MiniGame
+  level2: 0
+  level3: 0
+  level4: 0
+  level5: 0
+  OutroStory: 0
 --- !u!4 &214766394 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6877840810236931197, guid: 3492e0b254525f3459a2899544d4b3c6, type: 3}
@@ -5716,7 +5715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roundsText: {fileID: 1091823245}
   sceneFader: {fileID: 1943258349}
-  menuScene: MainMenu
+  menuScene: MainMenuNewScene
 --- !u!224 &1358233323
 RectTransform:
   m_ObjectHideFlags: 0

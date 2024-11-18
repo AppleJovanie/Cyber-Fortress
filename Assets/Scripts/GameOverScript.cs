@@ -9,7 +9,7 @@ public class GameOverScript : MonoBehaviour
 {
     public TextMeshProUGUI roundsText;
     public SceneFader sceneFader;
-    public string menuScene = "MainMenu";
+    public string menuScene = "MainMenuNewScene";
     void OnEnable()
     {
         roundsText.text = PlayerStats.Rounds.ToString();

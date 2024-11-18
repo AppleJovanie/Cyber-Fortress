@@ -18,7 +18,7 @@ public class Turret : MonoBehaviour
     private float fireCountDown = 0f;
 
     [Header("Unity Setup Fields")]
-    public List<string> enemyTags = new List<string> { "TrojanHorse", "ComputerWorm", "Spyware", "Adware", "Malware" };
+    private List<string> enemyTags = new List<string> { "TrojanHorse", "ComputerWorm", "Spyware", "Adware", "Malware", "ComputerWormBoss" };
     public Transform partToRotate;
     public float turnSpeed = 10f;
 

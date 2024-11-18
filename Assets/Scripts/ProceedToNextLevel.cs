@@ -9,7 +9,7 @@ public class ProceedToNextLevel : MonoBehaviour
     public int level3 = 5;
     public int level4 = 7;
     public int level5 = 9;
-    public int OutroStory = 12;
+    public int OutroStory = 11;
 
     public void Proceedafterlvl1()
     {

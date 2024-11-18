@@ -4946,7 +4946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roundsText: {fileID: 1091823245}
   sceneFader: {fileID: 1943258349}
-  menuScene: MainMenu
+  menuScene: MainMenuNewScene
 --- !u!224 &1358233323
 RectTransform:
   m_ObjectHideFlags: 0

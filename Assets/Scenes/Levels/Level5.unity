@@ -881,7 +881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - enemyPrefab: {fileID: 6195593399802394654, guid: 51ce2779665e2314dbb12bf4fdcb6ae1, type: 3}
+  - enemyPrefab: {fileID: 9060171367142609022, guid: c936b674773290446a2bca39cc57c81a, type: 3}
     count: 15
     spawnInterval: 2
   - enemyPrefab: {fileID: 6195593399802394654, guid: 51ce2779665e2314dbb12bf4fdcb6ae1, type: 3}
@@ -1059,12 +1059,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdab1129e21522442b4b1d09b9632afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level2: Level2
-  level3: Level3
-  level4: Level4
-  level5: Level5
-  OutroStory: OutroSceneStory
-  Minigame: MiniGame
+  level2: 3
+  level3: 5
+  level4: 7
+  level5: 9
+  OutroStory: 11
 --- !u!4 &204216640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2041201872891766566, guid: d0ce47d259a9fab43af0f6fff59af412, type: 3}
@@ -3510,11 +3509,11 @@ PrefabInstance:
     - target: {fileID: 7288763782771755769, guid: f57b6c5e6d5ff114492f6bf28c2c337b, type: 3}
       propertyPath: livesText
       value: 
-      objectReference: {fileID: 1297802029}
+      objectReference: {fileID: 1594874194}
     - target: {fileID: 7288763782771755769, guid: f57b6c5e6d5ff114492f6bf28c2c337b, type: 3}
       propertyPath: damageText
       value: 
-      objectReference: {fileID: 1594874194}
+      objectReference: {fileID: 1297802029}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5857,7 +5856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roundsText: {fileID: 1091823245}
   sceneFader: {fileID: 1943258349}
-  menuScene: MainMenu
+  menuScene: MainMenuNewScene
 --- !u!224 &1358233323
 RectTransform:
   m_ObjectHideFlags: 0

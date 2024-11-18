@@ -1061,12 +1061,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdab1129e21522442b4b1d09b9632afe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level2: Level2
-  level3: Level3
-  level4: Level4
-  level5: Level5
-  OutroStory: OutroSceneStory
-  Minigame: MiniGame
+  level2: 3
+  level3: 5
+  level4: 7
+  level5: 9
+  OutroStory: 11
 --- !u!4 &201233395 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6877840810236931197, guid: 3492e0b254525f3459a2899544d4b3c6, type: 3}
@@ -3459,10 +3458,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 195813124}
-    - target: {fileID: 3906637219218238921, guid: 9e6374d091ad254479f977422d42b2d8, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Proceedafterlvl3
-      objectReference: {fileID: 0}
     - target: {fileID: 4688033245196967519, guid: 9e6374d091ad254479f977422d42b2d8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3546,10 +3541,6 @@ PrefabInstance:
     - target: {fileID: 8246498371692089281, guid: 9e6374d091ad254479f977422d42b2d8, type: 3}
       propertyPath: m_Name
       value: NextLevelPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 8246498371692089281, guid: 9e6374d091ad254479f977422d42b2d8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5535,7 +5526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roundsText: {fileID: 1091823245}
   sceneFader: {fileID: 1943258349}
-  menuScene: MainMenu
+  menuScene: MainMenuNewScene
 --- !u!224 &1358233323
 RectTransform:
   m_ObjectHideFlags: 0
