@@ -87,4 +87,19 @@ public class AudioManager : MonoBehaviour
             SfxSource.Stop();
         }
     }
+    public void PlayMusic()
+    {
+        if (!musicSource.isPlaying)
+        {
+            musicSource.Play();
+        }
+    }
+
+    public void StopMusic()
+    {
+        if (musicSource.isPlaying)
+        {
+            musicSource.Stop();
+        }
+    }
 }
