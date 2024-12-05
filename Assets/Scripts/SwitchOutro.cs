@@ -8,7 +8,7 @@ public class SwitchOutro : MonoBehaviour
 {
     public GameObject[] background;
     public Button nextButton;  // Reference to the Next button
-    public string GoToMiniGame = "MiniGme";  // Name of the mini-game scene
+    public int GoToMiniGame = 12;  // Name of the mini-game scene
 
     private int index;
 
